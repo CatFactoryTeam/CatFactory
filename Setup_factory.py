@@ -17,13 +17,14 @@ def setup_cat():
 	    		arry += "'"+ fname + "'" + ','
 
 	arry = arry[:-1]
-	arry += '];'
+	arry += '];\n'
 
 	return arry
 
 # TODO : remove first line first
 
-factory = open('cat.js', 'r') 
+factory = open('cat.js', 'r')
+factory.readLine()
 content = factory.read()
 
 factory.close() 
