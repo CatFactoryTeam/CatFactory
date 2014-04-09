@@ -1,8 +1,3 @@
-body {
-	background: black;
-	color: white;
-}
-
 #cat, #ncat {
 	display: block;
 	margin: 0 auto;
@@ -12,9 +7,4 @@ body {
 #cat {
 	max-width: 400px;
 	max-height: 350px;
-}
-
-#ncat {
-	width: 10em;
-	height: 3em;
 }

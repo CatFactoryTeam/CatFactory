@@ -12,6 +12,8 @@ def setup_cat():
 
 	files = os.listdir(path)
 
+	# TODO : a real image collector (not just ignoring '.md')
+
 	for fname in files:
 		if not(fname.endswith('.md')):
 	    		arry += "'"+ fname + "'" + ','
@@ -23,13 +25,14 @@ def setup_cat():
 
 # TODO : remove first line first
 
-factory = open('cat.js', 'r')
-factory.readLine()
+catjs = 'js/cat.js'
+
+factory = open(catjs, 'r')
 content = factory.read()
 
 factory.close() 
 
-factory = open('cat.js', 'w') 
+factory = open(catjs, 'w') 
 
 factory.write(setup_cat()) 
 factory.write(content)
