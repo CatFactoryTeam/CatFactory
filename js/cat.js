@@ -3,10 +3,6 @@ var used = [];
 
 window.onload = function() {
 	ncat();
-}	
-
-document.getElementById('ncat').onclick = function() {
-	ncat();
 }
 
 // A 'clever' next random cat
@@ -14,9 +10,17 @@ function ncat() {
 
 	if (cats.length == 0)
 		new_start();
-
-	var cat = document.getElementById('cat');
-	cat.src = 'cats/' + cats[0];
+	
+	var wrp = document.getElementById('wrap');
+	wrp.removeChild(wrp.firstChild);
+	
+	var cat = document.createElement("img");
+	cat.setAttribute('src', 'cats/' + cats[0]);
+	cat.setAttribute('class', 'img-responsive img-circle');
+	cat.setAttribute('id', 'cat');
+	cat.setAttribute('onload', 'loaded()');
+		
+	wrp.appendChild(cat);
 
 	used.push(cats.shift());
 }
@@ -29,6 +33,7 @@ function new_start() {
 	used = [];
 }
 
+// Stop loading circle when the image is ready
 function loaded() {
 
 	Ladda.stopAll();
