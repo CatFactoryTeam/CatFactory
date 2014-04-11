@@ -2,6 +2,7 @@ var cats = ['aLKWoAP_460sa.gif','aKzpnvQ_460sa.gif','aLKrnR6_460sa.gif','aAYZyBZ
 var used = [];
 
 window.onload = function() {
+	cats = shuffle(cats);
 	ncat();
 }
 
@@ -18,7 +19,6 @@ function ncat() {
 	cat.setAttribute('src', 'cats/' + cats[0]);
 	cat.setAttribute('class', 'img-responsive img-circle');
 	cat.setAttribute('id', 'cat');
-	cat.setAttribute('onload', 'loaded()');
 		
 	wrp.appendChild(cat);
 
@@ -29,12 +29,13 @@ function ncat() {
 function new_start() {
 
 	// TODO : shuffle array
-	cats = used;
+	cats = shuffle(used);
 	used = [];
 }
 
-// Stop loading circle when the image is ready
-function loaded() {
-
-	Ladda.stopAll();
-}
+//+ Jonas Raoni Soares Silva
+//@ http://jsfromhell.com/array/shuffle [v1.0]
+function shuffle(o) { //v1.0
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
