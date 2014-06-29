@@ -5,10 +5,10 @@
 }
 #tip {
 	text-align: center;
-	font-size: 10px;
-	margin-top: 50px;
+	font-size: 0.70em;
+	margin-top: 2em;
 }
 #cat {
-	max-width: 400px;
-	max-height: 350px;
+	max-width: 80%;
+	max-height: 50%;
 }
