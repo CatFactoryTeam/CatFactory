@@ -17,7 +17,7 @@ function ncat() {
 	
 	var cat = document.createElement("img");
 	cat.setAttribute('src', 'cats/' + cats[0]);
-	cat.setAttribute('class', 'img-responsive img-circle');
+	cat.setAttribute('class', 'circular ui image');
 	cat.setAttribute('id', 'cat');
 		
 	wrp.appendChild(cat);

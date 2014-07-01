@@ -1,0 +1,53 @@
+@font-face {
+	font-family: 'Albert';
+	src: url('../font/AlbertsthalTypewriter.ttf');
+}
+
+body {
+	margin: 0;
+	color: white;
+	height: 100%;
+}
+
+header {
+	background: #6a86ba;
+}
+
+header .ui.header {
+	display: inline-block;
+	position: absolute;
+	margin-top: 2.5%;
+	margin-left: 2%;
+}
+
+header .ui.header {
+	font-size: 3.5em;
+	font-family: 'Albert';
+}
+
+header .ui.header .sub.header {
+	font-size: 0.35em;
+	color: white;
+	font-family: 'Monospace';
+}
+
+#logo {
+	margin-left: 4%;
+	margin-top: 1%;
+}
+
+#paint {
+	margin: 0;
+	position: absolute;
+	margin-top: 165px;
+	margin-left: 50%;
+}
+
+.container {
+	text-align: center;
+}
+
+.ui.button {
+	color: white;
+	background: #6a86ba;
+}
