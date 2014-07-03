@@ -1,53 +1,158 @@
 @font-face {
 	font-family: 'Albert';
-	src: url('../font/AlbertsthalTypewriter.ttf');
+	src        : url('../font/AlbertsthalTypewriter.ttf');
 }
 
 body {
 	margin: 0;
-	color: white;
-	height: 100%;
+	color : white;
 }
 
 header {
 	background: #6a86ba;
 }
 
+/*
+ * Header
+ */
 header .ui.header {
-	display: inline-block;
-	position: absolute;
-	margin-top: 2.5%;
-	margin-left: 2%;
-}
-
-header .ui.header {
-	font-size: 3.5em;
 	font-family: 'Albert';
+	display    : inline-block;
+	position   : absolute;
 }
 
+/*
+ * Sub-header
+ */
 header .ui.header .sub.header {
-	font-size: 0.35em;
-	color: white;
+	font-size  : 0.35em;
+	color      : white;
 	font-family: 'Monospace';
 }
 
-#logo {
-	margin-left: 4%;
-	margin-top: 1%;
-}
-
-#paint {
-	margin: 0;
-	position: absolute;
-	margin-top: 165px;
-	margin-left: 50%;
-}
-
-.container {
+section {
 	text-align: center;
 }
 
-.ui.button {
-	color: white;
+/*
+ * Blue paint leak
+ */
+#paint {
+	margin  : 0;
+	z-index : 1;
+	position: absolute;
+	display : inline-block;
+}
+
+/*
+ * Meow button
+ */
+#ncat {
+	color     : white;
 	background: #6a86ba;
+	margin-top: 3%;
+}
+
+/*
+ * Cat gif container
+ */
+#wrap {
+	margin-top: 5%;
+	display   : inline-block;
+}
+
+/*
+ * Cat gif
+ */
+#wrap img {
+	max-width : 100%;
+	height: auto;
+}
+
+/*
+ * Cat logo
+ */
+#logo {
+	display: inline-block;
+}
+
+/*
+ * Small screen
+ */
+@media (max-width: 450px) {
+	header .ui.header {
+		font-size  : 1.60em;
+		margin-top : 5%;
+		margin-left: 2%;
+	}
+
+	#logo {
+		width           : 81px;
+		height          : 78px;
+		margin-left     : 4%;
+		margin-top      : 1%;
+		background-image: url('../img/cat-mini.png');
+	}
+
+	#paint {
+		width           : 35px;
+		height          : 44px;
+		margin-top      : 80px;
+		margin-left     : 60%;
+		background-image: url('../img/paint-mini.png');
+	}
+}
+
+/*
+ * Medium screen
+ */
+@media (min-width: 450px) and (max-width: 700px) {
+	header .ui.header {
+		font-size  : 2.5em;
+		margin-top : 1%;
+		margin-left: 2%;
+	}
+
+	#logo {
+		width           : 81px;
+		height          : 78px;
+		margin-left     : 4%;
+		margin-top      : 1%;
+		background-image: url('../img/cat-mini.png');
+	}
+
+	#paint {
+		width           : 35px;
+		height          : 44px;
+		margin-top      : 80px;
+		margin-left     : 65%;
+		background-image: url('../img/paint-mini.png');
+	}
+}
+
+/*
+ * Large screen
+ */
+@media (min-width: 700px) {
+	header .ui.header {
+		font-size  : 3.5em;
+		margin-top : 2.5%;
+		margin-left: 2%;
+	}
+
+	#logo {
+		width           : 162px;
+		height          : 155px;
+		margin-left     : 4%;
+		margin-top      : 1%;
+		background-image: url('../img/cat.png');
+	}
+
+	#paint {
+		width           : 69px;
+		height          : 87px;
+		margin-top      : 165px;
+		margin-left     : 50%;
+		background-image: url('../img/paint.png');
+	}
 }
