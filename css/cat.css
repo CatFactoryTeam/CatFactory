@@ -19,18 +19,18 @@ header {
  * Header
  */
 header .ui.header {
-	font-family: 'Albert';
-	display    : inline-block;
+	font-family: Albert;
 	position   : absolute;
+	display    : inline-block;
 }
 
 /*
  * Sub-header
  */
 header .ui.header .sub.header {
-	font-size  : 0.35em;
 	color      : white;
-	font-family: 'Monospace';
+	font-size  : 0.50em;
+	font-family: Monospace;
 }
 
 /*
@@ -54,16 +54,16 @@ section {
  * Meow button
  */
 #ncat {
+	margin-top: 1%;
 	color     : white;
 	background: #6a86ba;
-	margin-top: 1%;
 }
 
 /*
  * Cat gif container
  */
 #wrap {
-	display   : inline-block;
+	display: inline-block;
 }
 
 /*
