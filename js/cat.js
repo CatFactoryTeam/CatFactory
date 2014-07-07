@@ -8,17 +8,18 @@ window.onload = function() {
 // A 'clever' next random cat
 function ncat() {
 
-	if (cats.length == 0)
+	if (cats.length == 0) {
 		new_start();
-	
+	}
+
 	var wrp = document.getElementById('wrap');
 	wrp.removeChild(wrp.firstChild);
-	
+
 	var cat = document.createElement("img");
 	cat.setAttribute('src', 'cats/' + cats[0]);
 	cat.setAttribute('class', 'circular ui image');
 	cat.setAttribute('id', 'cat');
-		
+
 	wrp.appendChild(cat);
 
 	used.push(cats.shift());
@@ -34,8 +35,8 @@ function new_start() {
 //+ Jonas Raoni Soares Silva
 //@ http://jsfromhell.com/array/shuffle [v1.0]
 function shuffle(o) { //v1.0
-    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-    return o;
+	for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+		return o;
 };
 
 document.onkeydown = function(ev) {
