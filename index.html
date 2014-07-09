@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" href="css/vendors/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="vendors/semantic/css/semantic.min.css"/>
+	<link rel="icon" type="image/png" href="img/favicon.png"/>
+	<link rel="stylesheet" href="css/cat.css"/>
+
 	<title>A cat factory</title>
 </head>
-
 <body>
-	<header class="page-header">
-		<div class="container">
-			<h1>A cat factory <small>Since nine-meow sixty-meow</small></h1>
-		</div>
+	<header>
+		<span id="logo"></span>
+		<h2 class="ui header">
+			A cat factory
+			<p class="sub header">Since nine-meow sixty-meow</p>
+		</h2>
+		<span id="paint"></span>
 	</header>
-	
-	<content>
-		<div class="container">
-			<div id="wrap">
-				
-			</div>
-			<button id="ncat" class="btn btn-primary" onclick="ncat()">Meow !</button>
-			<p id="tip">Hey, psst ! You can press 'N'</p>
+
+	<section>
+		<div id="wrap">
 		</div>
-	</content>
+		<br/>
+		<button id="ncat" class="ui button" onclick="ncat()">Meow !</button>
+	</section>
 
 	<script src="js/cat.js"></script>
 </body>
