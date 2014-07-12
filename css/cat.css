@@ -21,7 +21,6 @@ header {
 header .ui.header {
 	font-family: Albert;
 	position   : absolute;
-	display    : inline-block;
 }
 
 /*
