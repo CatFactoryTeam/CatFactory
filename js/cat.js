@@ -3,11 +3,12 @@ var used = [];
 window.onload = function() {
 	cats = shuffle(cats);
 	ncat();
+	// Set canvas
+	canvas();
 }
 
 // A 'clever' next random cat
 function ncat() {
-
 	if (cats.length == 0) {
 		new_start();
 	}
@@ -27,7 +28,6 @@ function ncat() {
 
 // When each cats have been used
 function new_start() {
-
 	cats = shuffle(used);
 	used = [];
 }
