@@ -1,3 +1,4 @@
+var cats = [];
 var used = [];
 
 window.onload = function() {
