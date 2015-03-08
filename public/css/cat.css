@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Albert';
-  src: url('../font/AlbertsthalTypewriter.ttf');
+  src: url('/font/AlbertsthalTypewriter.ttf');
 }
 
 body {
@@ -83,7 +83,7 @@ section {
     height: 78px;
     margin-left: 4%;
     margin-top: 1%;
-    background-image: url('../img/cat-mini.png');
+    background-image: url('/img/cat-mini.png');
   }
 
   #paint {
@@ -91,7 +91,7 @@ section {
     height: 57px;
     margin-top: 80px;
     margin-left: 60%;
-    background-image: url('../img/paint-mini.png');
+    background-image: url('/img/paint-mini.png');
   }
 
   #wrap img {
@@ -116,7 +116,7 @@ section {
     height: 78px;
     margin-left: 4%;
     margin-top: 1%;
-    background-image: url('../img/cat-mini.png');
+    background-image: url('/img/cat-mini.png');
   }
 
   #paint {
@@ -124,7 +124,7 @@ section {
     height: 57px;
     margin-top: 80px;
     margin-left: 65%;
-    background-image: url('../img/paint-mini.png');
+    background-image: url('/img/paint-mini.png');
   }
 
   #wrap img {
@@ -149,7 +149,7 @@ section {
     height: 155px;
     margin-left: 4%;
     margin-top: 1%;
-    background-image: url('../img/cat.png');
+    background-image: url('/img/cat.png');
   }
 
   #paint {
@@ -157,7 +157,7 @@ section {
     height: 87px;
     margin-top: 165px;
     margin-left: 50%;
-    background-image: url('../img/paint.png');
+    background-image: url('/img/paint.png');
   }
 
   #wrap img {
