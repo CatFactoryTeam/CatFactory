@@ -1,12 +1,10 @@
 var app = angular.module('cat', []);
 
-app.controller('Ctrl', function($scope, $http) {
-  $scope.waitingGif = { link: 'img/waiting.gif' };
-
+app.controller('Meow', function($scope, $http) {
   // By default put a local waiting gif
-  $scope.cats = [$scope.waitingGif];
+  $scope.cats = [{ link: 'img/waiting.gif' }];
   $scope.used = [];
-  $scope.restApi = "http://localhost:9000";
+  $scope.restApi = "http://catfactory-api.herokuapp.com";
 
   /**
    * Retrieve cats from CatRest
@@ -14,7 +12,7 @@ app.controller('Ctrl', function($scope, $http) {
   $scope.retrieveCats = function() {
     $http.get($scope.restApi + "/cats")
       .success(function(data, status, headers, config) {
-          $scope.cats = $scope.shuffle(data.data);
+        $scope.cats = $scope.shuffle(data.data);
       })
       .error(function(data, status, headers, config) {
 
@@ -26,7 +24,23 @@ app.controller('Ctrl', function($scope, $http) {
    */
   $scope.meow = function() {
     if ($scope.cats.length == 0) $scope.freshStart();
+
     $scope.used.push($scope.cats.shift());
+
+    // Stuff below is...
+    // Not very sexy ! But it works well on every browsers
+    // @todo Find a lovely way to "stream" GIF (avoid GIF restart when download is done)
+    var wrp = document.getElementById('wrap');
+    while (wrp.firstChild) {
+      wrp.removeChild(wrp.firstChild);
+    }
+
+    var cat = document.createElement('img');
+    cat.setAttribute('src', $scope.cats[0].link);
+    cat.setAttribute('class', 'circular ui image');
+    cat.setAttribute('id', 'cat');
+
+    wrp.appendChild(cat);
   }
 
   /**
