@@ -4,7 +4,7 @@ app.controller('Meow', function($scope, $http) {
   // By default put a local waiting gif
   $scope.cats = [{ link: 'img/waiting.gif' }];
   $scope.used = [];
-  $scope.restApi = "http://catfactory-api.herokuapp.com";
+  $scope.restApi = "https://catfactory-api.herokuapp.com";
 
   /**
    * Retrieve cats from CatRest
