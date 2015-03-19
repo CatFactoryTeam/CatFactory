@@ -7,6 +7,10 @@ lazy val root = (project in file("."))
 
 scalaVersion := "2.11.5"
 
+excludeFilter in (Assets, LessKeys.less) := "_*.less"
+
+includeFilter in (Assets, LessKeys.less) := "*.less"
+
 libraryDependencies ++= Seq(
   cache,
   ws
