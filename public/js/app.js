@@ -30,6 +30,7 @@ app.controller('Meow', function($scope, $http) {
     // Stuff below is...
     // Not very sexy ! But it works well on every browsers
     // @todo Find a lovely way to "stream" GIF (avoid GIF restart when download is done)
+    // @todo-better Use "GIFV" experience
     var wrp = document.getElementById('wrap');
     while (wrp.firstChild) {
       wrp.removeChild(wrp.firstChild);
