@@ -1,8 +1,8 @@
 var app = angular.module('cat', []);
 
 app.controller('Meow', function($scope, $http) {
-  // By default put a local waiting gif
-  $scope.cats = [{ link: 'img/waiting.gif' }];
+  $ready = false;
+  $scope.cats = [];
   $scope.used = [];
   $scope.restApi = "https://catfactory-api.herokuapp.com";
 
@@ -13,6 +13,8 @@ app.controller('Meow', function($scope, $http) {
     $http.get($scope.restApi + "/cats")
       .success(function(data, status, headers, config) {
         $scope.cats = $scope.shuffle(data.data);
+        $scope.meow();
+        $scope.ready = true;
       })
       .error(function(data, status, headers, config) {
 
@@ -27,21 +29,8 @@ app.controller('Meow', function($scope, $http) {
 
     $scope.used.push($scope.cats.shift());
 
-    // Stuff below is...
-    // Not very sexy ! But it works well on every browsers
-    // @todo Find a lovely way to "stream" GIF (avoid GIF restart when download is done)
-    // @todo-better Use "GIFV" experience
-    var wrp = document.getElementById('wrap');
-    while (wrp.firstChild) {
-      wrp.removeChild(wrp.firstChild);
-    }
-
-    var cat = document.createElement('img');
-    cat.setAttribute('src', $scope.cats[0].link);
-    cat.setAttribute('class', 'circular ui image');
-    cat.setAttribute('id', 'cat');
-
-    wrp.appendChild(cat);
+    document.getElementById('wrap').innerHTML = '<video autoplay="true" loop="true" muted="" class="circular ui image">' +
+      '<source type="video/webm" src="' + $scope.cats[0].webm +'"><source type="video/mp4" src="' + $scope.cats[0].mp4 +'"></video>';
   }
 
   /**

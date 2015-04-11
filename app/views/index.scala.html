@@ -22,10 +22,8 @@
     <span id="paint"></span>
   </header>
 
-  <section>
-    <div id="wrap">
-      <img id="cat" ng-src="{{cats[0].link}}" class="circular ui image"/>
-    </div>
+  <section ng-show="ready">
+    <div id="wrap"></div>
     <br/>
     <button id="ncat" class="ui button" ng-click="meow()">MEOW !</button>
   </section>
