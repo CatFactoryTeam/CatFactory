@@ -11,21 +11,28 @@
   <link rel="stylesheet" href="css/cat.css"/>
 </head>
 <body ng-app="cat" ng-controller="Meow" ng-keydown="onKeyDown($event)">
-  <canvas id="canvas"></canvas>
+  <canvas class="canvas"></canvas>
 
   <header>
-    <span id="logo"></span>
+    <span class="logo"></span>
     <h2 class="ui header" style="display: inline-block;">
       A cat factory
       <p class="sub header">Since nine-meow sixty-meow</p>
     </h2>
-    <span id="paint"></span>
+    <span class="paint"></span>
   </header>
 
   <section ng-show="ready">
-    <div id="wrap"></div>
+    <div class="wrap"></div>
     <br/>
     <button id="ncat" class="ui button" ng-click="meow()">MEOW !</button>
+  </section>
+
+  <section ng-hide="ready">
+    <div class="wrap">
+      <img ng-hide="error" src="img/waiting.gif"/>
+      <p ng-show="error">Meow... something is wrong with cats</p>
+    </div>
   </section>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>

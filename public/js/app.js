@@ -2,22 +2,23 @@ var app = angular.module('cat', []);
 
 app.controller('Meow', function($scope, $http) {
   $ready = false;
+  $error = false;
   $scope.cats = [];
   $scope.used = [];
-  $scope.restApi = "https://catfactory-api.herokuapp.com";
+  $scope.restApi = 'https://catfactory-api.herokuapp.com';
 
   /**
-   * Retrieve cats from CatRest
+   * Retrieve cats from CatApi (directly called)
    */
   $scope.retrieveCats = function() {
-    $http.get($scope.restApi + "/cats")
-      .success(function(data, status, headers, config) {
+    $http.get($scope.restApi + '/cats')
+      .success(function(data) {
         $scope.cats = $scope.shuffle(data.data);
         $scope.meow();
         $scope.ready = true;
       })
-      .error(function(data, status, headers, config) {
-
+      .error(function() {
+        $scope.error = true;
       });
   }();
 
@@ -29,8 +30,8 @@ app.controller('Meow', function($scope, $http) {
 
     $scope.used.push($scope.cats.shift());
 
-    document.getElementById('wrap').innerHTML = '<video autoplay="true" loop="true" muted="" class="circular ui image">' +
-      '<source type="video/webm" src="' + $scope.cats[0].webm +'"><source type="video/mp4" src="' + $scope.cats[0].mp4 +'"></video>';
+    document.getElementsByClassName('wrap')[0].innerHTML =
+      '<img src="' + $scope.cats[0].link + '" id="cat" class="circular ui image"/>';
   }
 
   /**
