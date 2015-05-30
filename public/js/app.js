@@ -1,8 +1,9 @@
 var app = angular.module('cat', []);
 
 app.controller('Meow', function($scope, $http) {
-  $ready = false;
-  $error = false;
+  $scope.ready = false;
+  $scope.error = false;
+
   $scope.cats = [];
   $scope.used = [];
   $scope.restApi = 'https://catfactory-api.herokuapp.com';
