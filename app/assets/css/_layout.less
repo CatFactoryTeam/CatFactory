@@ -49,8 +49,8 @@ section {
   background: url('/img/paint.svg') no-repeat center;
   background-size: 45px 57px;
 
-  -webkit-filter: drop-shadow(5px 11px 8px @shadow-color);
-  filter: drop-shadow(5px 11px 8px @shadow-color);
+  -webkit-filter: drop-shadow(1px 3px 2px @shadow-color);
+  filter: drop-shadow(1px 3px 2px @shadow-color);
 }
 
 /* Meow button */
@@ -64,6 +64,7 @@ section {
 
   text-transform: uppercase;
   background: @primary-color;
+  box-shadow: 0 3px 10px -2px @shadow-color;
 }
 
 /* Cat gif container */
@@ -73,6 +74,8 @@ section {
   /* Cat gif */
   img {
     max-height: 300px;
+    -webkit-filter: drop-shadow(1px 3px 2px @shadow-color);
+    filter: drop-shadow(1px 3px 2px @shadow-color);
   }
 }
 

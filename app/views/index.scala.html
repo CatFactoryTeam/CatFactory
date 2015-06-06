@@ -10,7 +10,7 @@
   <link rel="icon" sizes="128x128" href="img/icon.png">
   <link rel="stylesheet" href="css/cat.css"/>
 </head>
-<body ng-app="cat" ng-controller="MeowCtrl as Meow" ng-keydown="onKeyDown($event)">
+<body ng-app="cat" ng-controller="MeowCtrl as Meow" ng-keydown="Meow.onKeyDown($event)">
   <canvas class="canvas"></canvas>
 
   <header>
@@ -29,7 +29,7 @@
 
   <section ng-hide="Meow.ready">
     <div class="wrap">
-      <img ng-hide="Meow.error" src="img/waiting.gif"/>
+      <img ng-hide="Meow.error" src="img/waiting.gif" class="circular ui image"/>
       <p ng-show="Meow.error">Meow... something is wrong with cats</p>
     </div>
   </section>
