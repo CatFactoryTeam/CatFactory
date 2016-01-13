@@ -9,12 +9,6 @@ import Json.Decode as Json exposing ((:=))
 --
 --
 
-type Action = Meow
-
---
---
---
-
 type alias Model = {
   id: String,
   link: String
