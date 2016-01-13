@@ -1,97 +1,77 @@
-@shadow-color: #919191;
-
 @font-face {
   font-family: 'Albert';
-  src: url('/font/AlbertsthalTypewriter.ttf');
+  src: url('../font/AlbertsthalTypewriter.ttf');
 }
-
 body {
   margin: 0;
   color: white;
 }
-
 /* Header container */
 header {
-  background: @primary-color;
-  box-shadow: 0 3px 10px -2px @shadow-color;
-
+  background: #6a86ba;
+  box-shadow: 0 3px 10px -2px #919191;
   /* Header */
-  .ui.header {
-    color: white;
-    font-family: Albert;
-    position: absolute;
-
-    /* Sub header */
-    .sub.header {
-      color: white;
-      font-size: 0.50em;
-      font-family: Monospace;
-    }
-  }
 }
-
+header .ui.header {
+  color: white;
+  font-family: Albert;
+  position: absolute;
+  /* Sub header */
+}
+header .ui.header .sub.header {
+  color: white;
+  font-size: 0.50em;
+  font-family: Monospace;
+}
 /* Content container */
 section {
   text-align: center;
 }
-
 /* Paint leak */
 .paint {
   margin: 0;
   z-index: 1;
   position: absolute;
-
   width: 45px;
   height: 57px;
   margin-top: 80px;
   margin-left: 60%;
-
-  background: url('/img/paint.svg') no-repeat center;
+  background: url('../img/paint.svg') no-repeat center;
   background-size: 45px 57px;
-
-  -webkit-filter: drop-shadow(1px 3px 2px @shadow-color);
-  filter: drop-shadow(1px 3px 2px @shadow-color);
+  -webkit-filter: drop-shadow(1px 3px 2px #919191);
+  filter: drop-shadow(1px 3px 2px #919191);
 }
-
 /* Meow button */
 #ncat {
   color: white;
-
   display: block;
-  margin-top: 1%;
+  margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
-
   text-transform: uppercase;
-  background: @primary-color;
-  box-shadow: 0 3px 10px -2px @shadow-color;
+  background: #6a86ba;
+  box-shadow: 0 3px 10px -2px #919191;
 }
-
 /* Cat gif container */
 .wrap {
   display: inline-block;
-
   /* Cat gif */
-  img {
-    max-height: 300px;
-    -webkit-filter: drop-shadow(1px 3px 2px @shadow-color);
-    filter: drop-shadow(1px 3px 2px @shadow-color);
-  }
 }
-
+.wrap img {
+  max-height: 300px;
+  -webkit-filter: drop-shadow(1px 3px 2px #919191);
+  filter: drop-shadow(1px 3px 2px #919191);
+}
 /* Cat logo */
 .logo {
   display: inline-block;
-
   width: 81px;
   height: 78px;
   margin-left: 4%;
   margin-top: 1%;
-
-  background: url('/img/cat.svg') no-repeat center;
+  background: url('../img/cat.svg') no-repeat center;
   background-size: 81px 78px;
 }
-
 /* Special effect canvas */
 canvas {
   display: block;
@@ -101,7 +81,6 @@ canvas {
   z-index: 999;
   pointer-events: none;
 }
-
 /* Small screen */
 @media (max-width: 450px) {
   header .ui.header {
@@ -109,16 +88,13 @@ canvas {
     margin-top: 5%;
     margin-left: 2%;
   }
-
   .wrap {
     margin-top: 15%;
-
-    img {
-      max-width: 300px;
-    }
+  }
+  .wrap img {
+    max-width: 300px;
   }
 }
-
 /* Medium screen */
 @media (min-width: 450px) and (max-width: 700px) {
   header .ui.header {
@@ -126,16 +102,13 @@ canvas {
     margin-top: 1%;
     margin-left: 2%;
   }
-
   .wrap {
     margin-top: 10%;
-
-    img {
-      max-width: 350px;
-    }
+  }
+  .wrap img {
+    max-width: 350px;
   }
 }
-
 /* Large screen */
 @media (min-width: 700px) {
   header .ui.header {
@@ -143,28 +116,23 @@ canvas {
     margin-top: 2.5%;
     margin-left: 2%;
   }
-
   .logo {
     width: 162px;
     height: 155px;
-
     background-size: 162px 155px;
   }
-
   .paint {
     width: 69px;
     height: 87px;
     margin-top: 160px;
     margin-left: 50%;
-
     background-size: 69px 87px;
   }
-
   .wrap {
     margin-top: 5%;
-
-    img {
-      max-width: 450px;
-    }
+  }
+  .wrap img {
+    max-width: 450px;
   }
 }
+/*# sourceMappingURL=cat.css.map */
