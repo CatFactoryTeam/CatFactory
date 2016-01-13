@@ -10,10 +10,18 @@
 
 This factory has only one goal: **make you happy**.
 
+## Build
+
+`npm i`
+
+Then...
+
+`gulp build`
+
+Go to `dist/` and enjoy!
+
 ## Powered by
 
-The whole application is wrapped with **Play framework** and **Scala**.
+The whole application is made with **Elm**.
 
-But currently, everything is done on the front-side with **AngularJS**.
-
-Every cats are delivered from our RESTful API ([CatApi](https://github.com/CatFactoryTeam/CatApi)), which is made in **Scala** thanks to **Play framework**.
+Every cats are delivered from our RESTful API ([CatApi](https://github.com/CatFactoryTeam/CatApi)).

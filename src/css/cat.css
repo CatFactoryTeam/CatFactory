@@ -6,28 +6,23 @@ body {
   margin: 0;
   color: white;
 }
-/* Header container */
 header {
   background: #6a86ba;
   box-shadow: 0 3px 10px -2px #919191;
-  /* Header */
 }
 header .ui.header {
   color: white;
   font-family: Albert;
   position: absolute;
-  /* Sub header */
 }
 header .ui.header .sub.header {
   color: white;
   font-size: 0.50em;
   font-family: Monospace;
 }
-/* Content container */
 section {
   text-align: center;
 }
-/* Paint leak */
 .paint {
   margin: 0;
   z-index: 1;
@@ -41,7 +36,6 @@ section {
   -webkit-filter: drop-shadow(1px 3px 2px #919191);
   filter: drop-shadow(1px 3px 2px #919191);
 }
-/* Meow button */
 #ncat {
   color: white;
   display: block;
@@ -52,17 +46,14 @@ section {
   background: #6a86ba;
   box-shadow: 0 3px 10px -2px #919191;
 }
-/* Cat gif container */
 .wrap {
   display: inline-block;
-  /* Cat gif */
 }
 .wrap img {
   max-height: 300px;
   -webkit-filter: drop-shadow(1px 3px 2px #919191);
   filter: drop-shadow(1px 3px 2px #919191);
 }
-/* Cat logo */
 .logo {
   display: inline-block;
   width: 81px;
@@ -72,7 +63,6 @@ section {
   background: url('../img/cat.svg') no-repeat center;
   background-size: 81px 78px;
 }
-/* Special effect canvas */
 canvas {
   display: block;
   position: fixed;
@@ -135,4 +125,3 @@ canvas {
     max-width: 450px;
   }
 }
-/*# sourceMappingURL=cat.css.map */

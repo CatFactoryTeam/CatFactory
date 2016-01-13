@@ -1,4 +1,4 @@
-module App where
+module Main where
 
 import Task
 import Http
