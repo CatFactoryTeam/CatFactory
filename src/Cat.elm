@@ -3,16 +3,17 @@ module Cat where
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import RouteHash exposing (HashUpdate)
 import Json.Decode as Json exposing ((:=))
 
 --
 --
 --
 
-type alias Model = {
-  id: String,
-  link: String
-}
+type alias Model =
+  { id: String
+  , link: String
+  }
 
 --
 --
@@ -26,12 +27,23 @@ view  model =
 --
 --
 
-decodeCats : Json.Decoder (List Model)
-decodeCats =
-  ("data" := Json.list decodeCat)
+decode : Json.Decoder (List Model)
+decode =
+  ("data" := Json.list decodeSingle)
 
-decodeCat : Json.Decoder Model
-decodeCat =
+decodeSingle : Json.Decoder Model
+decodeSingle =
   Json.object2 Model
     ("id" := Json.string)
     ("link" := Json.string)
+
+--
+-- ROUTING
+--
+
+delta2update : Maybe Model -> Maybe Model -> Maybe HashUpdate
+delta2update previous current =
+  case current of
+    Just cat -> Just <|
+      RouteHash.set [toString cat.id]
+    Nothing -> Nothing
