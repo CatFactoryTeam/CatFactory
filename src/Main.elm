@@ -8,6 +8,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Effects exposing (Effects, Never)
+import List.Extra
 
 import Cat
 import Header
@@ -18,6 +19,7 @@ import Header
 
 type Action =
     Meow -- Click on "Meow" button to display next cat
+  | SetCurrent String
   | CatsRetrievedFromAPI (Maybe (List Cat.Model))
   | NoOp -- Nothing
 
@@ -28,11 +30,12 @@ type Action =
 type alias Model =
   { cats: List Cat.Model
   , remainingCats: List Cat.Model
+  , current: Maybe Cat.Model
   }
 
 initModel : (Model, Effects Action)
 initModel =
-  ( { cats = [], remainingCats = [] }
+  ( { cats = [], remainingCats = [], current = Nothing }
   , retrieveCats
   )
 
@@ -43,7 +46,9 @@ initModel =
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
-    Meow -> (updateWithMeowAction model, Effects.none)
+    Meow -> (updateForMeowAction model, Effects.none)
+
+    SetCurrent catId -> (updateForSetCurrentAction catId model, Effects.none)
 
     CatsRetrievedFromAPI result ->
       case result of
@@ -52,22 +57,29 @@ update action model =
 
     NoOp -> (model, Effects.none)
 
-updateWithMeowAction : Model -> Model
-updateWithMeowAction model =
+updateForMeowAction : Model -> Model
+updateForMeowAction model =
   let
     remainingCats = Maybe.withDefault [] (List.tail model.remainingCats)
+    remainingCats' = if List.isEmpty remainingCats then model.cats else remainingCats
+
+    current = List.head remainingCats'
   in
-    { model | remainingCats =
-      if List.isEmpty remainingCats then model.cats else remainingCats }
+    { model | remainingCats = remainingCats'
+            , current = current }
+
+updateForSetCurrentAction : String -> Model -> Model
+updateForSetCurrentAction catId model =
+  { model | current = List.Extra.find (\c -> c.id == catId) model.cats }
 
 --
 --
 --
 
 view : Signal.Address Action -> Model -> Html
-view address ({ remainingCats } as model) =
+view address ({ current } as model) =
   let
-    catView = case List.head remainingCats of
+    catView = case current of
       Just cat -> Cat.view cat
       Nothing -> span [] []
   in
@@ -101,12 +113,19 @@ routing =
     Signal.mailbox NoOp
 
 delta2update : Model -> Model -> Maybe HashUpdate
-delta2update previous current =
+delta2update oldModel newModel =
   RouteHash.map ((::) "cat") <|
-    Cat.delta2update (List.head previous.remainingCats) (List.head current.remainingCats)
+    Cat.delta2update (newModel.current)
 
 location2action : List String -> List Action
-location2action list = []
+location2action list =
+  case list of
+    first :: rest ->
+      case first of
+        "cat" -> [SetCurrent (Maybe.withDefault "" (List.head rest))]
+        _ -> []
+
+    _ -> []
 
 port routeTasks : Signal (Task.Task () ())
 port routeTasks =

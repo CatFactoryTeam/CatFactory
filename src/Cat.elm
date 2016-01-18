@@ -41,9 +41,9 @@ decodeSingle =
 -- ROUTING
 --
 
-delta2update : Maybe Model -> Maybe Model -> Maybe HashUpdate
-delta2update previous current =
-  case current of
+delta2update : Maybe Model -> Maybe HashUpdate
+delta2update newModel =
+  case newModel of
     Just cat -> Just <|
       RouteHash.set [toString cat.id]
     Nothing -> Nothing
