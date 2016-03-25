@@ -49,7 +49,7 @@ update action model =
   case action of
     Meow -> (updateForMeowAction model, Effects.none)
 
-    SetCurrent catId -> (updateForSetCurrentAction catId model, Effects.none)
+    SetCurrent catId -> updateForSetCurrentAction catId model
 
     CatsRetrievedFromAPI result ->
       case result of
@@ -73,9 +73,14 @@ updateForMeowAction model =
     { model | remainingCats = remainingCats'
             , current = current }
 
-updateForSetCurrentAction : String -> Model -> Model
+updateForSetCurrentAction : String -> Model -> (Model, Effects Action)
 updateForSetCurrentAction catId model =
-  { model | current = List.Extra.find (\c -> c.id == catId) model.cats }
+  -- If it's loading, we don't have cats yet
+  -- So we need to send SetCurrent actions until we got them
+  if model.isLoading then
+    (model, Effects.task (Task.succeed (SetCurrent catId)))
+  else
+    ({ model | current = List.Extra.find (\c -> c.id == catId) model.cats }, Effects.none)
 
 --
 -- VIEW
