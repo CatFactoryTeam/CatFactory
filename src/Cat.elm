@@ -45,5 +45,5 @@ delta2update : Maybe Model -> Maybe HashUpdate
 delta2update newModel =
   case newModel of
     Just cat -> Just <|
-      RouteHash.set [toString cat.id]
+      RouteHash.set [cat.id]
     Nothing -> Nothing
