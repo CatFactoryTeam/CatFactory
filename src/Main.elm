@@ -9,6 +9,11 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Effects exposing (Effects, Never)
 import List.Extra
+import Array
+import Random.Array
+import Random.Int
+import Random
+import Time
 
 import Cat
 import Header
@@ -32,11 +37,12 @@ type alias Model =
   , remainingCats: List Cat.Model
   , current: Maybe Cat.Model
   , isLoading: Bool
+  , seed: Random.Seed
   }
 
 initModel : (Model, Effects Action)
 initModel =
-  ( { cats = [], remainingCats = [], current = Nothing, isLoading = True }
+  ( { cats = [], remainingCats = [], current = Nothing, isLoading = True, seed = Random.initialSeed 0 }
   , retrieveCats
   )
 
@@ -53,11 +59,16 @@ update action model =
 
     CatsRetrievedFromAPI result ->
       case result of
-        Just cats -> ({ model | remainingCats = cats
-                              , cats = cats
-                              , current = List.head cats
-                              , isLoading = False
-                      }, Effects.none)
+        Just cats ->
+          let
+            generator = Random.Array.shuffle(Array.fromList cats)
+            (shuffledList, seed) = Random.generate generator model.seed
+          in
+            ({ model | remainingCats = Array.toList shuffledList
+                     , cats = cats
+                     , current = List.head cats
+                     , isLoading = False
+             }, Effects.none)
         Nothing -> (model, Effects.none)
 
     NoOp -> (model, Effects.none)
