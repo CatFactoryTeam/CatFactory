@@ -1,6 +1,6 @@
 module Main where
 
-import Task
+import Task exposing (Task, andThen)
 import Http
 import StartApp
 import RouteHash exposing (HashUpdate)
@@ -11,7 +11,6 @@ import Effects exposing (Effects, Never)
 import List.Extra
 import Array
 import Random.Array
-import Random.Int
 import Random
 import Time
 
@@ -24,8 +23,9 @@ import Header
 
 type Action =
     Meow -- Click on "Meow" button to display next cat
-  | SetCurrent String
+  | SetCurrent (Maybe String)
   | CatsRetrievedFromAPI (Maybe (List Cat.Model))
+  | SetSeed Random.Seed
   | NoOp -- Nothing
 
 --
@@ -55,44 +55,55 @@ update action model =
   case action of
     Meow -> (updateForMeowAction model, Effects.none)
 
-    SetCurrent catId -> updateForSetCurrentAction catId model
+    SetCurrent maybeCatId -> updateForSetCurrentAction maybeCatId model
+
+    SetSeed seed ->
+     ({ model | seed = seed } , Effects.none)
 
     CatsRetrievedFromAPI result ->
       case result of
         Just cats ->
-          let
-            generator = Random.Array.shuffle(Array.fromList cats)
-            (shuffledList, seed) = Random.generate generator model.seed
-          in
-            ({ model | remainingCats = Array.toList shuffledList
-                     , cats = cats
-                     , current = List.head cats
-                     , isLoading = False
-             }, Effects.none)
+          ({ model | remainingCats = shuffleList cats model.seed
+                   , cats = cats
+                   , isLoading = False
+           }, Effects.none)
         Nothing -> (model, Effects.none)
 
     NoOp -> (model, Effects.none)
+
+shuffleList : List a -> Random.Seed -> List a
+shuffleList list seed =
+  let
+    generator = Random.Array.shuffle(Array.fromList list)
+    (shuffledArray, seed) = Random.generate generator seed
+  in
+    Array.toList shuffledArray
 
 updateForMeowAction : Model -> Model
 updateForMeowAction model =
   let
     remainingCats = Maybe.withDefault [] (List.tail model.remainingCats)
-    remainingCats' = if List.isEmpty remainingCats then model.cats else remainingCats
+    remainingCats' = if List.isEmpty remainingCats
+                     then shuffleList model.cats model.seed
+                     else remainingCats
 
     current = List.head remainingCats'
   in
     { model | remainingCats = remainingCats'
             , current = current }
 
-updateForSetCurrentAction : String -> Model -> (Model, Effects Action)
-updateForSetCurrentAction catId model =
+updateForSetCurrentAction : Maybe String -> Model -> (Model, Effects Action)
+updateForSetCurrentAction maybeCatId model =
   -- If it's loading, we don't have cats yet
   -- So we need to send SetCurrent actions until we got them
   if model.isLoading then
-    (model, Effects.task (Task.succeed (SetCurrent catId)))
+    (model, Effects.task (Task.succeed (SetCurrent maybeCatId)))
   else
-    ({ model | current = List.Extra.find (\c -> c.id == catId) model.cats }, Effects.none)
-
+    case maybeCatId of
+      Just catId ->
+        ({ model | current = List.Extra.find (\c -> c.id == catId) model.cats }, Effects.none)
+      Nothing ->
+        ({ model | current = List.head model.remainingCats } , Effects.none)
 --
 -- VIEW
 --
@@ -134,7 +145,7 @@ viewLoader =
 
 retrieveCats : Effects Action
 retrieveCats =
-  Http.get Cat.decode ("http://catfactory-api.herokuapp.com/cats")
+  Task.sleep (2 * Time.second ) `andThen` (\x -> Http.get Cat.decode ("http://catfactory-api.herokuapp.com/cats"))
     |> Task.toMaybe
     |> Task.map CatsRetrievedFromAPI
     |> Effects.task
@@ -145,7 +156,7 @@ retrieveCats =
 
 routing : Signal.Mailbox Action
 routing =
-    Signal.mailbox NoOp
+  Signal.mailbox NoOp
 
 delta2update : Model -> Model -> Maybe HashUpdate
 delta2update oldModel newModel =
@@ -157,8 +168,8 @@ location2action list =
   case list of
     first :: rest ->
       case first of
-        "cat" -> [SetCurrent (Maybe.withDefault "" (List.head rest))]
-        _ -> []
+        "cat" -> [ SetCurrent (List.head rest) ]
+        _ -> [ SetCurrent Nothing ]
 
     _ -> []
 
@@ -178,7 +189,7 @@ port routeTasks =
 
 app : StartApp.App Model
 app =
-  StartApp.start { init = initModel, view = view, update = update, inputs = [ routing.signal ] }
+  StartApp.start { init = initModel, view = view, update = update, inputs = [ routing.signal, seed ] }
 
 main : Signal Html
 main =
@@ -187,3 +198,8 @@ main =
 port tasks : Signal (Task.Task Never ())
 port tasks =
   app.tasks
+
+-- Seed updated every second to get random order of cats
+seed : Signal Action
+seed =
+  Signal.map (\time -> SetSeed (Random.initialSeed (truncate time))) (Time.every Time.second)
