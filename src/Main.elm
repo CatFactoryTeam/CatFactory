@@ -14,7 +14,7 @@ import Cat
 import Header
 
 --
---
+-- ACTION
 --
 
 type Action =
@@ -24,23 +24,24 @@ type Action =
   | NoOp -- Nothing
 
 --
---
+-- MODEL
 --
 
 type alias Model =
   { cats: List Cat.Model
   , remainingCats: List Cat.Model
   , current: Maybe Cat.Model
+  , isLoading: Bool
   }
 
 initModel : (Model, Effects Action)
 initModel =
-  ( { cats = [], remainingCats = [], current = Nothing }
+  ( { cats = [], remainingCats = [], current = Nothing, isLoading = True }
   , retrieveCats
   )
 
 --
---
+-- UPDATE
 --
 
 update : Action -> Model -> (Model, Effects Action)
@@ -52,7 +53,11 @@ update action model =
 
     CatsRetrievedFromAPI result ->
       case result of
-        Just cats -> ({ model | remainingCats = cats, cats = cats }, Effects.none)
+        Just cats -> ({ model | remainingCats = cats
+                              , cats = cats
+                              , current = List.head cats
+                              , isLoading = False
+                      }, Effects.none)
         Nothing -> (model, Effects.none)
 
     NoOp -> (model, Effects.none)
@@ -73,25 +78,39 @@ updateForSetCurrentAction catId model =
   { model | current = List.Extra.find (\c -> c.id == catId) model.cats }
 
 --
---
+-- VIEW
 --
 
 view : Signal.Address Action -> Model -> Html
 view address ({ current } as model) =
   let
+    loader = viewLoader
     catView = case current of
       Just cat -> Cat.view cat
       Nothing -> span [] []
+
+    sectionBody =
+      -- Display a loader
+      if model.isLoading then [ loader ]
+      else
+        [ catView
+        , button [ id "ncat", class "ui button", onClick address Meow ] [ text "Meow!" ]
+        ]
   in
     div []
       [ Header.view
       , section []
         [ div [ class "wrap" ]
-          [ catView
-          , button [ id "ncat", class "ui button", onClick address Meow ] [ text "Meow!" ]
-          ]
+          sectionBody
         ]
       ]
+
+viewLoader : Html
+viewLoader =
+  div [ class "spinner" ]
+    [ div [ class "double-bounce1" ] []
+    , div [ class "double-bounce2" ] []
+    ]
 
 --
 --
@@ -138,7 +157,7 @@ port routeTasks =
     }
 
 ---
----
+--- MAIN
 ---
 
 app : StartApp.App Model
