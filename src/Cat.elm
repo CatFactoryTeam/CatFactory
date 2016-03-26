@@ -29,6 +29,11 @@ view model =
   img [ src model.link, id "cat", class "circular ui image" ] []
 
 
+viewPreloaded : Model -> Html
+viewPreloaded model =
+  img [ src model.link ] []
+
+
 
 --
 --

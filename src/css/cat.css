@@ -72,8 +72,7 @@ canvas {
   pointer-events: none;
 }
 .preloaded-cats {
-  position: absolute;
-  z-index: -1;
+  display: none;
 }
 /* Small screen */
 @media (max-width: 450px) {

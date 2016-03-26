@@ -188,8 +188,8 @@ Displaying the next cat became instantaneous
 viewPreloadedCats : Model -> Html
 viewPreloadedCats model =
   div
-    [ class "preloaded-cats", style [ ( "opacity", "0" ) ] ]
-    (List.map Cat.view (List.take 5 model.remainingCats))
+    [ class "preloaded-cats" ]
+    (List.map Cat.viewPreloaded (List.take 5 model.remainingCats))
 
 
 viewLoader : Html
