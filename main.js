@@ -12554,11 +12554,25 @@ Elm.Main.make = function (_elm) {
    _U.list([$Html$Attributes.$class("spinner")]),
    _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("double-bounce1")]),_U.list([]))
            ,A2($Html.div,_U.list([$Html$Attributes.$class("double-bounce2")]),_U.list([]))]));
+   var viewPreloadedCats = function (model) {
+      return A2($Html.div,
+      _U.list([$Html$Attributes.$class("preloaded-cats"),$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "opacity",_1: "0"}]))]),
+      A2($List.map,$Cat.view,A2($List.take,5,model.remainingCats)));
+   };
+   var viewCat = function (_p0) {
+      var _p1 = _p0;
+      var _p2 = _p1.current;
+      if (_p2.ctor === "Just") {
+            return $Cat.view(_p2._0);
+         } else {
+            return A2($Html.span,_U.list([]),_U.list([]));
+         }
+   };
    var shuffleList = F2(function (list,seed) {
       var generator = $Random$Array.shuffle($Array.fromList(list));
-      var _p0 = A2($Random.generate,generator,seed);
-      var shuffledArray = _p0._0;
-      var seed = _p0._1;
+      var _p3 = A2($Random.generate,generator,seed);
+      var shuffledArray = _p3._0;
+      var seed = _p3._1;
       return $Array.toList(shuffledArray);
    });
    var updateForMeowAction = function (model) {
@@ -12586,10 +12600,10 @@ Elm.Main.make = function (_elm) {
    var SetCurrent = function (a) {    return {ctor: "SetCurrent",_0: a};};
    var updateForSetCurrentAction = F2(function (maybeCatId,model) {
       if (model.isLoading) return {ctor: "_Tuple2",_0: model,_1: $Effects.task($Task.succeed(SetCurrent(maybeCatId)))}; else {
-            var _p1 = maybeCatId;
-            if (_p1.ctor === "Just") {
+            var _p4 = maybeCatId;
+            if (_p4.ctor === "Just") {
                   return {ctor: "_Tuple2"
-                         ,_0: _U.update(model,{current: A2($List$Extra.find,function (c) {    return _U.eq(c.id,_p1._0);},model.cats)})
+                         ,_0: _U.update(model,{current: A2($List$Extra.find,function (c) {    return _U.eq(c.id,_p4._0);},model.cats)})
                          ,_1: $Effects.none};
                } else {
                   return {ctor: "_Tuple2",_0: _U.update(model,{current: $List.head(model.remainingCats)}),_1: $Effects.none};
@@ -12597,26 +12611,26 @@ Elm.Main.make = function (_elm) {
          }
    });
    var update = F2(function (action,model) {
-      var _p2 = action;
-      switch (_p2.ctor)
+      var _p5 = action;
+      switch (_p5.ctor)
       {case "Meow": return {ctor: "_Tuple2",_0: updateForMeowAction(model),_1: $Effects.none};
-         case "SetCurrent": return A2(updateForSetCurrentAction,_p2._0,model);
-         case "SetSeed": return {ctor: "_Tuple2",_0: _U.update(model,{seed: _p2._0}),_1: $Effects.none};
-         case "CatsRetrievedFromAPI": var _p3 = _p2._0;
-           if (_p3.ctor === "Just") {
-                 var _p4 = _p3._0;
-                 return {ctor: "_Tuple2",_0: _U.update(model,{remainingCats: A2(shuffleList,_p4,model.seed),cats: _p4,isLoading: false}),_1: $Effects.none};
+         case "SetCurrent": return A2(updateForSetCurrentAction,_p5._0,model);
+         case "SetSeed": return {ctor: "_Tuple2",_0: _U.update(model,{seed: _p5._0}),_1: $Effects.none};
+         case "CatsRetrievedFromAPI": var _p6 = _p5._0;
+           if (_p6.ctor === "Just") {
+                 var _p7 = _p6._0;
+                 return {ctor: "_Tuple2",_0: _U.update(model,{remainingCats: A2(shuffleList,_p7,model.seed),cats: _p7,isLoading: false}),_1: $Effects.none};
               } else {
                  return {ctor: "_Tuple2",_0: model,_1: $Effects.none};
               }
          default: return {ctor: "_Tuple2",_0: model,_1: $Effects.none};}
    });
    var location2action = function (list) {
-      var _p5 = list;
-      if (_p5.ctor === "::") {
-            var _p6 = _p5._0;
-            if (_p6 === "cat") {
-                  return _U.list([SetCurrent($List.head(_p5._1))]);
+      var _p8 = list;
+      if (_p8.ctor === "::") {
+            var _p9 = _p8._0;
+            if (_p9 === "cat") {
+                  return _U.list([SetCurrent($List.head(_p8._1))]);
                } else {
                   return _U.list([SetCurrent($Maybe.Nothing)]);
                }
@@ -12625,23 +12639,17 @@ Elm.Main.make = function (_elm) {
          }
    };
    var Meow = {ctor: "Meow"};
-   var view = F2(function (address,_p7) {
-      var _p8 = _p7;
-      var catView = function () {
-         var _p9 = _p8.current;
-         if (_p9.ctor === "Just") {
-               return $Cat.view(_p9._0);
-            } else {
-               return A2($Html.span,_U.list([]),_U.list([]));
-            }
-      }();
+   var view = F2(function (address,_p10) {
+      var _p11 = _p10;
+      var _p12 = _p11;
       var loader = viewLoader;
-      var sectionBody = _p8.isLoading ? _U.list([loader]) : _U.list([catView
-                                                                    ,A2($Html.button,
-                                                                    _U.list([$Html$Attributes.id("ncat")
-                                                                            ,$Html$Attributes.$class("ui button")
-                                                                            ,A2($Html$Events.onClick,address,Meow)]),
-                                                                    _U.list([$Html.text("Meow!")]))]);
+      var sectionBody = _p12.isLoading ? _U.list([loader]) : _U.list([viewCat(_p12)
+                                                                     ,viewPreloadedCats(_p12)
+                                                                     ,A2($Html.button,
+                                                                     _U.list([$Html$Attributes.id("ncat")
+                                                                             ,$Html$Attributes.$class("ui button")
+                                                                             ,A2($Html$Events.onClick,address,Meow)]),
+                                                                     _U.list([$Html.text("Meow!")]))]);
       return A2($Html.div,
       _U.list([]),
       _U.list([$Header.view,A2($Html.section,_U.list([]),_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("wrap")]),sectionBody)]))]));
@@ -12664,6 +12672,8 @@ Elm.Main.make = function (_elm) {
                              ,updateForMeowAction: updateForMeowAction
                              ,updateForSetCurrentAction: updateForSetCurrentAction
                              ,view: view
+                             ,viewCat: viewCat
+                             ,viewPreloadedCats: viewPreloadedCats
                              ,viewLoader: viewLoader
                              ,retrieveCats: retrieveCats
                              ,routing: routing
