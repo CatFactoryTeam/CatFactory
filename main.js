@@ -12596,13 +12596,20 @@ Elm.Cat.make = function (_elm) {
             return $Maybe.Nothing;
          }
    };
+   var viewPreloaded = function (model) {    return A2($Html.img,_U.list([$Html$Attributes.src(model.link)]),_U.list([]));};
    var view = function (model) {
       return A2($Html.img,_U.list([$Html$Attributes.src(model.link),$Html$Attributes.id("cat"),$Html$Attributes.$class("circular ui image")]),_U.list([]));
    };
    var Model = F2(function (a,b) {    return {id: a,link: b};});
    var decodeSingle = A3($Json$Decode.object2,Model,A2($Json$Decode._op[":="],"id",$Json$Decode.string),A2($Json$Decode._op[":="],"link",$Json$Decode.string));
    var decode = A2($Json$Decode._op[":="],"data",$Json$Decode.list(decodeSingle));
-   return _elm.Cat.values = {_op: _op,Model: Model,view: view,decode: decode,decodeSingle: decodeSingle,delta2update: delta2update};
+   return _elm.Cat.values = {_op: _op
+                            ,Model: Model
+                            ,view: view
+                            ,viewPreloaded: viewPreloaded
+                            ,decode: decode
+                            ,decodeSingle: decodeSingle
+                            ,delta2update: delta2update};
 };
 Elm.Header = Elm.Header || {};
 Elm.Header.make = function (_elm) {
@@ -12667,9 +12674,7 @@ Elm.Main.make = function (_elm) {
    _U.list([A2($Html.div,_U.list([$Html$Attributes.$class("double-bounce1")]),_U.list([]))
            ,A2($Html.div,_U.list([$Html$Attributes.$class("double-bounce2")]),_U.list([]))]));
    var viewPreloadedCats = function (model) {
-      return A2($Html.div,
-      _U.list([$Html$Attributes.$class("preloaded-cats"),$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "opacity",_1: "0"}]))]),
-      A2($List.map,$Cat.view,A2($List.take,5,model.remainingCats)));
+      return A2($Html.div,_U.list([$Html$Attributes.$class("preloaded-cats")]),A2($List.map,$Cat.viewPreloaded,A2($List.take,5,model.remainingCats)));
    };
    var viewCat = function (_p0) {
       var _p1 = _p0;
