@@ -13,6 +13,7 @@ import Array
 import Random.Array
 import Random
 import Time
+import Keyboard
 import Cat
 import Header
 
@@ -266,7 +267,7 @@ port routeTasks =
 
 app : StartApp.App Model
 app =
-  StartApp.start { init = initModel, view = view, update = update, inputs = [ routing.signal, seed ] }
+  StartApp.start { init = initModel, view = view, update = update, inputs = [ routing.signal, seed, pressN ] }
 
 
 main : Signal Html
@@ -284,3 +285,20 @@ port tasks =
 seed : Signal Action
 seed =
   Signal.map (\time -> SetSeed (Random.initialSeed (truncate time))) (Time.every Time.second)
+
+
+keyCodeNextCat : Int
+keyCodeNextCat =
+  78
+
+
+pressN : Signal Action
+pressN =
+  Signal.map
+    (\k ->
+      if k then
+        Meow
+      else
+        NoOp
+    )
+    (Keyboard.isDown keyCodeNextCat)
