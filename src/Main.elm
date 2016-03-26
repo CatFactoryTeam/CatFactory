@@ -112,15 +112,12 @@ view : Signal.Address Action -> Model -> Html
 view address ({ current } as model) =
   let
     loader = viewLoader
-    catView = case current of
-      Just cat -> Cat.view cat
-      Nothing -> span [] []
 
     sectionBody =
-      -- Display a loader
       if model.isLoading then [ loader ]
       else
-        [ catView
+        [ viewCat model
+        , viewPreloadedCats model
         , button [ id "ncat", class "ui button", onClick address Meow ] [ text "Meow!" ]
         ]
   in
@@ -131,6 +128,21 @@ view address ({ current } as model) =
           sectionBody
         ]
       ]
+
+viewCat : Model -> Html
+viewCat ({ current }) =
+  case current of
+    Just cat -> Cat.view cat
+    Nothing -> span [] []
+
+-- By preloading some of the next cats
+-- We make the experience even better!
+-- Displaying the next cat became instantaneous
+-- (except if the user is faster than its internet)
+viewPreloadedCats : Model -> Html
+viewPreloadedCats model =
+  div [ class "preloaded-cats", style [ ("opacity", "0") ] ]
+    (List.map Cat.view (List.take 5 model.remainingCats))
 
 viewLoader : Html
 viewLoader =

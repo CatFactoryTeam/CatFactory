@@ -71,6 +71,10 @@ canvas {
   z-index: 999;
   pointer-events: none;
 }
+.preloaded-cats {
+  position: absolute;
+  z-index: -1;
+}
 /* Small screen */
 @media (max-width: 450px) {
   header .ui.header {

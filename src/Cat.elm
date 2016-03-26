@@ -20,7 +20,7 @@ type alias Model =
 --
 
 view : Model -> Html
-view  model =
+view model =
   img [ src model.link, id "cat" , class "circular ui image" ] []
 
 --
