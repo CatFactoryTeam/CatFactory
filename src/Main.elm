@@ -1,19 +1,19 @@
 module Main (..) where
 
-import Task exposing (Task, andThen)
+import Time
 import Http
 import StartApp
-import RouteHash exposing (HashUpdate)
+import Keyboard
+import Array
+import List.Extra
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import Task exposing (Task, andThen)
 import Effects exposing (Effects, Never)
-import List.Extra
-import Array
 import Random.Array
-import Random
-import Time
-import Keyboard
+import Random exposing (Seed, initialSeed, generate)
+import RouteHash exposing (HashUpdate)
 import Cat
 import Header
 
@@ -27,7 +27,7 @@ type Action
   = Meow
   | SetCurrent (Maybe String)
   | CatsRetrievedFromAPI (Maybe (List Cat.Model))
-  | SetSeed Random.Seed
+  | SetSeed Seed
   | NoOp
 
 
@@ -42,13 +42,13 @@ type alias Model =
   , remainingCats : List Cat.Model
   , current : Maybe Cat.Model
   , isLoading : Bool
-  , seed : Random.Seed
+  , seed : Seed
   }
 
 
 initModel : ( Model, Effects Action )
 initModel =
-  ( { cats = [], remainingCats = [], current = Nothing, isLoading = True, seed = Random.initialSeed 0 }
+  ( { cats = [], remainingCats = [], current = Nothing, isLoading = True, seed = initialSeed 0 }
   , retrieveCats
   )
 
@@ -89,18 +89,6 @@ update action model =
       ( model, Effects.none )
 
 
-shuffleList : List a -> Random.Seed -> List a
-shuffleList list seed =
-  let
-    generator =
-      Random.Array.shuffle (Array.fromList list)
-
-    ( shuffledArray, seed ) =
-      Random.generate generator seed
-  in
-    Array.toList shuffledArray
-
-
 updateForMeowAction : Model -> Model
 updateForMeowAction model =
   let
@@ -135,6 +123,18 @@ updateForSetCurrentAction maybeCatId model =
 
       Nothing ->
         ( { model | current = List.head model.remainingCats }, Effects.none )
+
+
+shuffleList : List a -> Seed -> List a
+shuffleList list seed =
+  let
+    generator =
+      Random.Array.shuffle (Array.fromList list)
+
+    ( shuffledArray, seed ) =
+      generate generator seed
+  in
+    Array.toList shuffledArray
 
 
 
@@ -284,7 +284,7 @@ port tasks =
 -}
 seed : Signal Action
 seed =
-  Signal.map (\time -> SetSeed (Random.initialSeed (truncate time))) (Time.every Time.second)
+  Signal.map (\time -> SetSeed (initialSeed (truncate time))) (Time.every Time.second)
 
 
 keyCodeNextCat : Int
