@@ -9651,6 +9651,116 @@ Elm.Json.Decode.make = function (_elm) {
                                     ,value: value
                                     ,customDecoder: customDecoder};
 };
+Elm.Native.Keyboard = {};
+
+Elm.Native.Keyboard.make = function(localRuntime) {
+	localRuntime.Native = localRuntime.Native || {};
+	localRuntime.Native.Keyboard = localRuntime.Native.Keyboard || {};
+	if (localRuntime.Native.Keyboard.values)
+	{
+		return localRuntime.Native.Keyboard.values;
+	}
+
+	var NS = Elm.Native.Signal.make(localRuntime);
+
+
+	function keyEvent(event)
+	{
+		return {
+			alt: event.altKey,
+			meta: event.metaKey,
+			keyCode: event.keyCode
+		};
+	}
+
+
+	function keyStream(node, eventName, handler)
+	{
+		var stream = NS.input(eventName, { alt: false, meta: false, keyCode: 0 });
+
+		localRuntime.addListener([stream.id], node, eventName, function(e) {
+			localRuntime.notify(stream.id, handler(e));
+		});
+
+		return stream;
+	}
+
+	var downs = keyStream(document, 'keydown', keyEvent);
+	var ups = keyStream(document, 'keyup', keyEvent);
+	var presses = keyStream(document, 'keypress', keyEvent);
+	var blurs = keyStream(window, 'blur', function() { return null; });
+
+
+	return localRuntime.Native.Keyboard.values = {
+		downs: downs,
+		ups: ups,
+		blurs: blurs,
+		presses: presses
+	};
+};
+
+Elm.Keyboard = Elm.Keyboard || {};
+Elm.Keyboard.make = function (_elm) {
+   "use strict";
+   _elm.Keyboard = _elm.Keyboard || {};
+   if (_elm.Keyboard.values) return _elm.Keyboard.values;
+   var _U = Elm.Native.Utils.make(_elm),
+   $Basics = Elm.Basics.make(_elm),
+   $Char = Elm.Char.make(_elm),
+   $Native$Keyboard = Elm.Native.Keyboard.make(_elm),
+   $Set = Elm.Set.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var _op = {};
+   var presses = A2($Signal.map,function (_) {    return _.keyCode;},$Native$Keyboard.presses);
+   var toXY = F2(function (_p0,keyCodes) {
+      var _p1 = _p0;
+      var is = function (keyCode) {    return A2($Set.member,keyCode,keyCodes) ? 1 : 0;};
+      return {x: is(_p1.right) - is(_p1.left),y: is(_p1.up) - is(_p1.down)};
+   });
+   var Directions = F4(function (a,b,c,d) {    return {up: a,down: b,left: c,right: d};});
+   var dropMap = F2(function (f,signal) {    return $Signal.dropRepeats(A2($Signal.map,f,signal));});
+   var EventInfo = F3(function (a,b,c) {    return {alt: a,meta: b,keyCode: c};});
+   var Blur = {ctor: "Blur"};
+   var Down = function (a) {    return {ctor: "Down",_0: a};};
+   var Up = function (a) {    return {ctor: "Up",_0: a};};
+   var rawEvents = $Signal.mergeMany(_U.list([A2($Signal.map,Up,$Native$Keyboard.ups)
+                                             ,A2($Signal.map,Down,$Native$Keyboard.downs)
+                                             ,A2($Signal.map,$Basics.always(Blur),$Native$Keyboard.blurs)]));
+   var empty = {alt: false,meta: false,keyCodes: $Set.empty};
+   var update = F2(function (event,model) {
+      var _p2 = event;
+      switch (_p2.ctor)
+      {case "Down": var _p3 = _p2._0;
+           return {alt: _p3.alt,meta: _p3.meta,keyCodes: A2($Set.insert,_p3.keyCode,model.keyCodes)};
+         case "Up": var _p4 = _p2._0;
+           return {alt: _p4.alt,meta: _p4.meta,keyCodes: A2($Set.remove,_p4.keyCode,model.keyCodes)};
+         default: return empty;}
+   });
+   var model = A3($Signal.foldp,update,empty,rawEvents);
+   var alt = A2(dropMap,function (_) {    return _.alt;},model);
+   var meta = A2(dropMap,function (_) {    return _.meta;},model);
+   var keysDown = A2(dropMap,function (_) {    return _.keyCodes;},model);
+   var arrows = A2(dropMap,toXY({up: 38,down: 40,left: 37,right: 39}),keysDown);
+   var wasd = A2(dropMap,toXY({up: 87,down: 83,left: 65,right: 68}),keysDown);
+   var isDown = function (keyCode) {    return A2(dropMap,$Set.member(keyCode),keysDown);};
+   var ctrl = isDown(17);
+   var shift = isDown(16);
+   var space = isDown(32);
+   var enter = isDown(13);
+   var Model = F3(function (a,b,c) {    return {alt: a,meta: b,keyCodes: c};});
+   return _elm.Keyboard.values = {_op: _op
+                                 ,arrows: arrows
+                                 ,wasd: wasd
+                                 ,enter: enter
+                                 ,space: space
+                                 ,ctrl: ctrl
+                                 ,shift: shift
+                                 ,alt: alt
+                                 ,meta: meta
+                                 ,isDown: isDown
+                                 ,keysDown: keysDown
+                                 ,presses: presses};
+};
 Elm.Native.Effects = {};
 Elm.Native.Effects.make = function(localRuntime) {
 
@@ -12535,6 +12645,7 @@ Elm.Main.make = function (_elm) {
    $Html$Attributes = Elm.Html.Attributes.make(_elm),
    $Html$Events = Elm.Html.Events.make(_elm),
    $Http = Elm.Http.make(_elm),
+   $Keyboard = Elm.Keyboard.make(_elm),
    $List = Elm.List.make(_elm),
    $List$Extra = Elm.List.Extra.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
@@ -12547,6 +12658,7 @@ Elm.Main.make = function (_elm) {
    $Task = Elm.Task.make(_elm),
    $Time = Elm.Time.make(_elm);
    var _op = {};
+   var keyCodeNextCat = 78;
    var delta2update = F2(function (oldModel,newModel) {
       return A2($RouteHash.map,F2(function (x,y) {    return A2($List._op["::"],x,y);})("cat"),$Cat.delta2update(newModel.current));
    });
@@ -12654,7 +12766,8 @@ Elm.Main.make = function (_elm) {
       _U.list([]),
       _U.list([$Header.view,A2($Html.section,_U.list([]),_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("wrap")]),sectionBody)]))]));
    });
-   var app = $StartApp.start({init: initModel,view: view,update: update,inputs: _U.list([routing.signal,seed])});
+   var pressN = A2($Signal.map,function (k) {    return k ? Meow : NoOp;},$Keyboard.isDown(keyCodeNextCat));
+   var app = $StartApp.start({init: initModel,view: view,update: update,inputs: _U.list([routing.signal,seed,pressN])});
    var routeTasks = Elm.Native.Task.make(_elm).performSignal("routeTasks",
    $RouteHash.start({prefix: $RouteHash.defaultPrefix,address: routing.address,models: app.model,delta2update: delta2update,location2action: location2action}));
    var main = app.html;
@@ -12668,9 +12781,9 @@ Elm.Main.make = function (_elm) {
                              ,Model: Model
                              ,initModel: initModel
                              ,update: update
-                             ,shuffleList: shuffleList
                              ,updateForMeowAction: updateForMeowAction
                              ,updateForSetCurrentAction: updateForSetCurrentAction
+                             ,shuffleList: shuffleList
                              ,view: view
                              ,viewCat: viewCat
                              ,viewPreloadedCats: viewPreloadedCats
@@ -12681,5 +12794,7 @@ Elm.Main.make = function (_elm) {
                              ,location2action: location2action
                              ,app: app
                              ,main: main
-                             ,seed: seed};
+                             ,seed: seed
+                             ,keyCodeNextCat: keyCodeNextCat
+                             ,pressN: pressN};
 };
