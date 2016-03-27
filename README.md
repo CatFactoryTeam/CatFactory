@@ -12,13 +12,23 @@ This factory has only one goal: **make you happy**.
 
 ## Build
 
-`npm i`
+You need Elm and npm.
+
+`elm-package install`
+
+`npm install`
 
 Then...
 
 `gulp build`
 
 Go to `dist/` and enjoy!
+
+## Dev
+
+Use watch to re-build on save
+
+`gulp watch`
 
 ## Powered by
 
