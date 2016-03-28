@@ -26,9 +26,7 @@ Go to `dist/` and enjoy!
 
 ## Dev
 
-Use watch to re-build on save
-
-`gulp watch`
+`gulp --serve --watch`
 
 ## Powered by
 

@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var elm = require('gulp-elm');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
+var browserSync = require('browser-sync').create();
+var argv = require('yargs').argv;
 
 var paths = {
   html: 'src/index.html',
@@ -46,11 +48,25 @@ gulp.task('img', function() {
     .pipe(gulp.dest('dist/img'))
 });
 
-gulp.task('watch', function() {
+function watch() {
   gulp.watch(paths.elm, ['elm']);
   gulp.watch(paths.html, ['html']);
   gulp.watch(paths.css, ['css']);
-});
+}
 
 gulp.task('build', ['elm', 'html', 'css', 'font', 'img'])
-gulp.task('default', ['build']);
+gulp.task('default', ['build'], function() {
+  if (argv.serve) {
+    browserSync.init({
+     server: "./dist"
+    });
+
+    gulp.watch('./dist/index.html').on('change', browserSync.reload);
+    gulp.watch('./dist/**/*.js').on('change', browserSync.reload);
+    gulp.watch('./dist/**/*.css').on('change', browserSync.reload);
+  }
+
+  if (argv.watch) {
+    watch();
+  }
+});
