@@ -25,7 +25,7 @@ import Header
 
 type Action
   = Meow
-  | SetCurrent (Maybe String)
+  | SetCurrent (Maybe Cat.Id)
   | CatsRetrievedFromAPI (Maybe (List Cat.Model))
   | SetSeed Seed
   | NoOp

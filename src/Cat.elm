@@ -13,9 +13,13 @@ import Json.Decode as Json exposing ((:=))
 
 
 type alias Model =
-  { id : String
+  { id : Id
   , link : String
   }
+
+
+type alias Id =
+  String
 
 
 
