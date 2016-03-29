@@ -4,18 +4,17 @@ import Time
 import Http
 import StartApp
 import Keyboard
-import Array
 import List.Extra
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Task exposing (Task, andThen)
 import Effects exposing (Effects, Never)
-import Random.Array
 import Random exposing (Seed, initialSeed, generate)
 import RouteHash exposing (HashUpdate)
 import Cat
 import Header
+import Util
 
 
 --
@@ -75,7 +74,7 @@ update action model =
       case result of
         Just cats ->
           ( { model
-              | remainingCats = shuffleList cats model.seed
+              | remainingCats = Util.shuffleList cats model.seed
               , cats = cats
               , isLoading = False
             }
@@ -97,7 +96,7 @@ updateForMeowAction model =
 
     remainingCats' =
       if List.isEmpty remainingCats then
-        shuffleList model.cats model.seed
+        Util.shuffleList model.cats model.seed
       else
         remainingCats
 
@@ -123,18 +122,6 @@ updateForSetCurrentAction maybeCatId model =
 
       Nothing ->
         ( { model | current = List.head model.remainingCats }, Effects.none )
-
-
-shuffleList : List a -> Seed -> List a
-shuffleList list seed =
-  let
-    generator =
-      Random.Array.shuffle (Array.fromList list)
-
-    ( shuffledArray, seed ) =
-      generate generator seed
-  in
-    Array.toList shuffledArray
 
 
 
