@@ -17,13 +17,13 @@ header .ui.header {
 }
 header .ui.header .sub.header {
   color: white;
-  font-size: 0.50em;
+  font-size: 0.50em !important;
   font-family: Monospace;
 }
 section {
   text-align: center;
 }
-.paint {
+.paint-leak {
   margin: 0;
   z-index: 1;
   position: absolute;
@@ -31,12 +31,12 @@ section {
   height: 57px;
   margin-top: 80px;
   margin-left: 60%;
-  background: url('../img/paint.svg') no-repeat center;
+  background: url('../img/paint-leak.svg') no-repeat center;
   background-size: 45px 57px;
   -webkit-filter: drop-shadow(1px 3px 2px #919191);
   filter: drop-shadow(1px 3px 2px #919191);
 }
-#ncat {
+#meow-button {
   color: white;
   display: block;
   margin-top: 5%;
@@ -46,10 +46,10 @@ section {
   background: #6a86ba;
   box-shadow: 0 3px 10px -2px #919191;
 }
-.wrap {
+.container {
   display: inline-block;
 }
-.wrap img {
+.container img {
   max-height: 300px;
   -webkit-filter: drop-shadow(1px 3px 2px #919191);
   filter: drop-shadow(1px 3px 2px #919191);
@@ -81,10 +81,10 @@ canvas {
     margin-top: 5%;
     margin-left: 2%;
   }
-  .wrap {
+  .container {
     margin-top: 15%;
   }
-  .wrap img {
+  .container img {
     max-width: 300px;
   }
 }
@@ -95,10 +95,10 @@ canvas {
     margin-top: 1%;
     margin-left: 2%;
   }
-  .wrap {
+  .container {
     margin-top: 10%;
   }
-  .wrap img {
+  .container img {
     max-width: 350px;
   }
 }
@@ -114,17 +114,17 @@ canvas {
     height: 155px;
     background-size: 162px 155px;
   }
-  .paint {
+  .paint-leak {
     width: 69px;
     height: 87px;
     margin-top: 160px;
     margin-left: 50%;
     background-size: 69px 87px;
   }
-  .wrap {
+  .container {
     margin-top: 5%;
   }
-  .wrap img {
+  .container img {
     max-width: 450px;
   }
 }

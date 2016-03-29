@@ -12633,7 +12633,7 @@ Elm.Header.make = function (_elm) {
            _U.list([$Html$Attributes.$class("ui header"),$Html$Attributes.style(_U.list([{ctor: "_Tuple2",_0: "display",_1: "inline-block"}]))]),
            _U.list([$Html.text("A cat factory")
                    ,A2($Html.p,_U.list([$Html$Attributes.$class("sub header")]),_U.list([$Html.text("Since nine-meow sixty-meow")]))]))
-           ,A2($Html.span,_U.list([$Html$Attributes.$class("paint")]),_U.list([]))]));
+           ,A2($Html.span,_U.list([$Html$Attributes.$class("paint-leak")]),_U.list([]))]));
    return _elm.Header.values = {_op: _op,view: view};
 };
 Elm.Main = Elm.Main || {};
@@ -12763,13 +12763,13 @@ Elm.Main.make = function (_elm) {
       var sectionBody = _p12.isLoading ? _U.list([loader]) : _U.list([viewCat(_p12)
                                                                      ,viewPreloadedCats(_p12)
                                                                      ,A2($Html.button,
-                                                                     _U.list([$Html$Attributes.id("ncat")
+                                                                     _U.list([$Html$Attributes.id("meow-button")
                                                                              ,$Html$Attributes.$class("ui button")
                                                                              ,A2($Html$Events.onClick,address,Meow)]),
                                                                      _U.list([$Html.text("Meow!")]))]);
       return A2($Html.div,
       _U.list([]),
-      _U.list([$Header.view,A2($Html.section,_U.list([]),_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("wrap")]),sectionBody)]))]));
+      _U.list([$Header.view,A2($Html.section,_U.list([]),_U.list([A2($Html.div,_U.list([$Html$Attributes.$class("container")]),sectionBody)]))]));
    });
    var pressN = A2($Signal.map,function (k) {    return k ? Meow : NoOp;},$Keyboard.isDown(keyCodeNextCat));
    var app = $StartApp.start({init: initModel,view: view,update: update,inputs: _U.list([routing.signal,seed,pressN])});
