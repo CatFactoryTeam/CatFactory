@@ -2,7 +2,6 @@ module Cat (..) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
 import RouteHash exposing (HashUpdate)
 import Json.Decode as Json exposing ((:=))
 
@@ -30,12 +29,7 @@ type alias Id =
 
 view : Model -> Html
 view model =
-  img [ src model.link, id "cat", class "circular ui image" ] []
-
-
-viewPreloaded : Model -> Html
-viewPreloaded model =
-  img [ src model.link ] []
+  img [ src model.link, class "circular ui image" ] []
 
 
 

@@ -189,7 +189,7 @@ viewPreloadedCats : Model -> Html
 viewPreloadedCats model =
   div
     [ class "preloaded-cats" ]
-    (List.map Cat.viewPreloaded (List.take 5 model.remainingCats))
+    (List.map Cat.view (model.remainingCats |> List.take 5))
 
 
 viewLoader : Html
