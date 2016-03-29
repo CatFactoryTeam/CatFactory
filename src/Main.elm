@@ -155,7 +155,7 @@ view address ({ current } as model) =
       else
         [ viewCat model
         , viewPreloadedCats model
-        , button [ id "ncat", class "ui button", onClick address Meow ] [ text "Meow!" ]
+        , button [ id "meow-button", class "ui button", onClick address Meow ] [ text "Meow!" ]
         ]
   in
     div
@@ -164,7 +164,7 @@ view address ({ current } as model) =
       , section
           []
           [ div
-              [ class "wrap" ]
+              [ class "container" ]
               sectionBody
           ]
       ]

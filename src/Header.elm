@@ -19,5 +19,5 @@ view =
         [ text "A cat factory"
         , p [ class "sub header" ] [ text "Since nine-meow sixty-meow" ]
         ]
-    , span [ class "paint" ] []
+    , span [ class "paint-leak" ] []
     ]
